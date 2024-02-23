@@ -100,9 +100,24 @@ app.get("/players/:id", async (req, res) => {
     const player = await Player.findById(playerId);
 
     if (player) {
-      res.send(
-        `<h1>${player.playerName}'s Information</h1><p>Score: ${player.playerScore}</p>`
-      );
+      const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta property="og:title"         content="Your Website Title" />
+        <meta property="og:description"   content="Your description" />
+        <meta property="og:image"         content="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg" />
+        <title>${player.playerName}'s Information</title>
+      </head>
+      <body>
+        <h1>${player.playerName}'s Information</h1>
+        <p>Score: ${player.playerScore}</p>
+      </body>
+      </html>
+    `;
+
+      res.send(html);
     } else {
       res.status(404).send("Player not found");
     }
